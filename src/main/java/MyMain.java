@@ -6,43 +6,55 @@ public class MyMain {
     // The method returns the final double they type in
 
     // scan.nextDouble() might be useful here
+
     public static double inputDouble() {
         Scanner scan = new Scanner(System.in);
-        // REPLACE THIS WITH YOUR CODE
-
-        return -1.0;
+        double money;
+        System.out.println("Please input a number between 0.0 and 1000000.0.");
+        money = scan.nextDouble();
+        while(money > 1000000.0 || money < 0.0) {
+            System.out.println("Invalid input. Please input a number between 0.0 and 1000000.0.");
+            money = scan.nextDouble();
+        }
+        return money;
     }
 
-    // Takes a double money as input and returns the number of quarters that we
-    // can return in change
-    // You should use a while loop!
+    double money = inputDouble();
+
     public static int numQuarters(double money) {
-        // REPLACE THIS WITH YOUR CODE
-        return 0;
+        double remainder = money;
+        int res = 0;
+        while(remainder > 0.25) {
+            remainder = remainder - 0.25;
+            res++;
+        }
+        return res;
     }
 
     // Takes a double money as input and returns the number of dimes that we
     // can return in change
     // You should use a while loop!
     public static int numDimes(double money) {
-        // REPLACE THIS WITH YOUR CODE
-        return 0;
+        return (int) ((money-numQuarters(money)*0.25)/0.1);
     }
 
     // Takes a double money as input and returns the number of nickels that we
     // can return in change
     // You should use a while loop!
     public static int numNickels(double money) {
-        // REPLACE THIS WITH YOUR CODE
-        return 0;
+        double AfterQuarters = money-numQuarters(money)*0.25;
+        double AfterDimes = AfterQuarters-numDimes(money)*0.1;
+        return (int) (AfterDimes/0.05);
     }
 
     // Takes a double money as input and returns the number of pennies that we
     // can return in change
     // You should use a while loop!
     public static int numPennies(double money) {
-        // REPLACE THIS WITH YOUR CODE
-        return 0;
+        double AfterQuarters = money-numQuarters(money)*0.25;
+        double AfterDimes = AfterQuarters-numDimes(money)*0.1;
+        double AfterNickels = AfterDimes-numNickels(money)*0.05;
+        return (int) (AfterNickels/0.01);
     }
 
     public static void main(String[] args) {
@@ -51,18 +63,7 @@ public class MyMain {
         // You should test inputDouble yourself!
         double d = inputDouble();
 
-        // Some code to test numQuarters
-        System.out.println("\nnumQuarters tests:");
-        System.out.println("1.25 in quarters would be: " + numQuarters(1.25) + " quarters."); // 5
-        System.out.println("10.55 in quarters would be: " + numQuarters(10.55) + " quarters."); // 42
-        System.out.println("1000000.20 in quarters would be: " + numQuarters(1000000.20) + " quarters."); //4000000
-
-        // Some code to test numDimes
-        System.out.println("\nnumDimes tests:");
-        System.out.println("1.20 in dimes would be: " + numDimes(1.20) + " dimes."); // 12
-        System.out.println("120.13 in dimes would be: " + numDimes(120.13) + " dimes."); //1201
-        System.out.println("150.25 in dimes would be: " + numDimes(150.25) + " dimes."); //1502
-
+        System.out.println("You will recieve " + numQuarters(d) + " quarters, " + numDimes(d) + " dimes, " + numNickels(d) + " nickels, and " + numPennies(d) + " pennies.");
         scan.close();
     }
 }
